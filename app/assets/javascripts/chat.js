@@ -10,6 +10,15 @@ $(document).ready(function() {
     return string.trim().length > 0;
   };
 
+  var loadMessages = function () {
+    $.get('/messages', function (data) {
+      for (var i = 0; i < data.length; i += 1) {
+        var msg = data[i];
+        addMessage(msg.body);
+      }
+    });
+  };
+
   $('form').submit(function(event) {
     event.preventDefault();
     var body = bodyField.val();
@@ -22,5 +31,10 @@ $(document).ready(function() {
     }
 
   });
+
+  loadMessages();
+
+  // TODO: Submit when the enter key is pressed.
+
 
 });
