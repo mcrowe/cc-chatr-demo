@@ -46,7 +46,7 @@ $(document).ready(function() {
 
   refreshMessages();
 
-  // setInterval(refreshMessages, 2000);
+  setInterval(refreshMessages, 2000);
 
   $(document).on('click', 'i', function() {
     var listItem = $(this).parent();
