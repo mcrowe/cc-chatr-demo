@@ -1,14 +1,17 @@
 $(document).ready(function() {
 
+  var UPDATE_INTERVAL = 2000; // ms between updates.
+
   var bodyField = $('textarea');
 
-  var renderMessage = function (id, body) {
-    var html = '<li data-message-id="' + id + '">' + body + '<i>x</i></li>';
+
+  var renderMessage = function (msg) {
+    var html = '<li data-message-id="' + msg.id + '">' + msg.body + '<i>x</i></li>';
     return html;
   };
 
-  var addMessage = function (id, body) {
-    var html = renderMessage(id, body);
+  var addMessage = function (msg) {
+    var html = renderMessage(msg);
     $('ul').prepend(html);
   };
 
@@ -17,12 +20,11 @@ $(document).ready(function() {
   };
 
   var refreshMessages = function () {
-    $.get('/messages', function (data) {
+    $.get('/messages', function (messages) {
       $('ul').html('');
 
-      for (var i = 0; i < data.length; i += 1) {
-        var msg = data[i];
-        addMessage(msg.id, msg.body);
+      for (var i = 0; i < messages.length; i += 1) {
+        addMessage(messages[i]);
       }
     });
   };
@@ -46,7 +48,7 @@ $(document).ready(function() {
 
   refreshMessages();
 
-  setInterval(refreshMessages, 2000);
+  setInterval(refreshMessages, UPDATE_INTERVAL);
 
   $(document).on('click', 'i', function() {
     var listItem = $(this).parent();
